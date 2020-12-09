@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" />
+    <title>Weather App</title>
+    <style>
+        html
+        {
+            background-color: #f2dcbb;
+        }
+        .box
+        {
+            text-align: center;
+            width: 300px;
+            height: 450px;
+            position: relative;
+            overflow: hidden;
+            margin:auto ;
+            margin-top: 50px;
+            background-color: #bce6eb;
+            box-shadow: 5px 5px 50px skyblue;
+            border-radius: 20px;
+        }
+        .inner-box
+        {
+            z-index: 1;
+            width: 550px;
+            height: 500px;
+            background-color: skyblue;
+            position: absolute;
+            border-radius:40%;
+            left:-100px;
+            bottom:-270px;
+            animation : loop 5000ms linear infinite;
+        }
+        @keyframes loop 
+        {
+            0%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform:rotate(360deg);
+            }
+        }
+        .info
+        {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            top:80px;
+        }
+        #weathericon
+        {
+            margin-top:60px;
+        }
+        input
+        {
+            width: 100%;
+            padding:5px;
+            height: 30px;
+            border:none;
+            font-size: 20px;
+            color:skyblue;
+            text-align: center;
+            border-radius: 500px;
+        }
+        button
+        {
+            width:80%;
+            padding:5px;
+            border:1px solid red;
+            background :none;
+            transition : all 0.2s;
+            margin-top : 10px;
+            border-radius: 500px;
+        }
+        button:hover
+        {
+            background-color:tomato;
+            color :white;
+            
+        }
+        form 
+        {
+            margin:auto ;
+            width:200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <form method="POST" action="/">
+        <input type="text" name="place" placeholder="Enter your City" required><br>
+        <button type="submit">Check</button>
+    </form>
+
+    <div class="box">
+        <%    var x = temprature; %>
+        <%    var name = "sun"; %>
+        <%    if (x<20){ %>
+                
+            <div id="weathericon">
+                <i class="far fa-snowflake" style="color:#fff; font-size: 65px;"></i>
+            </div>
+
+        <%    }else{ %>
+            <div id="weathericon">
+                <i class="far fa-sun" style="color:#ffa62b; font-size: 65px;"></i>
+            </div>  
+        <%    }%>
+        
+        <div class="info">
+                <h2 class="location"><i class="fas fa-street-view fa-2x" style="color:#fff;margin-right:10px;"></i>
+                    <%= cityname%> , <%= countryNames %>
+                </h2>
+                <p id="date">WED | OCT | 10:49AM</p>
+                <h1 class="temp"> <%= temprature %> °C  </h1>
+                <h3>Min <%= temprature_min %> °C | Max <%= temprature_max %> °C </h3>
+        </div>
+        <!-- Card Designer Box -->
+        <div class="inner-box"></div> 
+    </div>
+
+    <script>
+        var currDate = document.querySelector('#date');
+        var months = ['JAN' , 'FEB', 'MAR' , 'APL' ,'MAY', 'JUE' ,'JUL' , 'AUG' , 'SEP' ,'OCT' , 'NOV' ,'DEC'];
+
+        var week = ['SUN', 'MON' , 'TUE' , 'WED' , 'THU' ,'FRI' , 'SAT'];
+
+        function getCurrentDay(){
+            var x = new Date();
+
+            var time =  months[x.getMonth()]+ " | " + 
+            week[x.getDay()] + " | ";
+
+            if (x.getHours() > 12)
+            {
+                time = time + (x.getHours()-12) + ":" + (x.getMinutes()>9?x.getMinutes() : ("0"+x.getMinutes())) + "PM";
+            }
+            else
+            {
+                time += (x.getHours()) + ":" + (x.getMinutes()>9?x.getMinutes() : ("0"+x.getMinutes())) + "AM";
+            }
+            currDate.innerHTML = time;
+        }
+
+        getCurrentDay();
+    </script>
+</body>
+</html>
